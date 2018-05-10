@@ -4,15 +4,20 @@
 <div class="col">
   <div class="card" id="app">
     <div class="card-body">
-    <h3>{{message}}</h3>
-      <button type="button" class="btn btn-primary btn-lg btn-block">
-        Get new phrase.
+      <button type="button" @click="getNewPhrase" class="btn btn-primary btn-lg btn-block" :disabled="cannotGetNewPhrases">
+        <span v-if="loading">Please wait..</span>
+        <span v-else>Get new phrase.</span>
       </button>
-      <button type="button" class="btn btn-danger btn-lg btn-block">
+      <button type="button" @click="clearPhrases"  class="btn btn-danger btn-lg btn-block">
         Clear phrases.
       </button>
+      <p>&nbsp;</p>
+       <h5 class="lead text-center">
+        <b>There are {{remaining}} phrases left in the database.
+        </b>
+       </h5> 
        <ul class="list-group list-group-flush text-center">
-        <li v-for="phrase in phrases" class="list-group-item">{{phrase}}</li>
+        <li v-for="phrase in phrases" :key="phrase.id" class="list-group-item">{{phrase.title}}</li>
       </ul>
     </div>
   </div>

@@ -5,7 +5,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el: "#app",
     data: {
       loading: false,
-      phrases: []
+      phrases: [],
+      remaining: 10
+    },
+    computed: {
+      cannotGetNewPhrases: function() {
+        return this.loading || this.remaining < 1;
+      }
     },
     mounted() {},
     methods: {
@@ -16,7 +22,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
           .then(data => {
             this.phrases.push(data);
             this.loading = false;
+            this.remaining--;
           });
+      },
+      clearPhrases() {
+        fetch("/reset", {
+          method: "POST"
+        }).then(() => {
+          this.phrases = [];
+          this.loading = false;
+        });
       }
     }
   });
