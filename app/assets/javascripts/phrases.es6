@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     },
     mounted() {},
     methods: {
-      const ids = this.phrases.reduce((acc, el) => acc.concat(el.id), [])
-      const params = new URLSearchParams(Object.entries({ ids })).toString()
       getNewPhrase() {
+        const ids = this.phrases.reduce((acc, el) => acc.concat(el.id), []);
+        const params = new URLSearchParams(Object.entries({ ids })).toString();
         this.loading = true;
         fetch(`/new_phrase?${params}`)
           .then(resp => resp.json())
