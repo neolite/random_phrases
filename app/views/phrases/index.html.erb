@@ -1,0 +1,22 @@
+<div class="col-4">
+  &nbsp;
+</div>
+<div class="col">
+  <div class="card" id="app">
+    <div class="card-body">
+    <h3>{{message}}</h3>
+      <button type="button" class="btn btn-primary btn-lg btn-block">
+        Get new phrase.
+      </button>
+      <button type="button" class="btn btn-danger btn-lg btn-block">
+        Clear phrases.
+      </button>
+       <ul class="list-group list-group-flush text-center">
+        <li v-for="phrase in phrases" class="list-group-item">{{phrase}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="col-4">
+&nbsp;
+</div>
