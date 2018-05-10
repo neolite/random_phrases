@@ -2,8 +2,8 @@ class PhrasesController < ApplicationController
   def index; end
 
   def new
-    phrases = cookies[:phrases]
-    phrase = Phrase.where.not(id: phrases).order("RANDOM()").first
+    ids = params[:ids]
+    phrase = Phrase.where.not(id: ids.split(",").map(&:to_i)).order("RANDOM()").first
     respond_to do |format|
       format.json { render :json => phrase.slice(:id, :title) }
     end

@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-  console.log("DOM fully loaded and parsed");
-
   new Vue({
     el: "#app",
     data: {
@@ -13,7 +11,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return this.loading || this.remaining < 1;
       }
     },
-    mounted() {},
+    mounted() {
+      const savedPhrases = localStorage.getItem("phrases");
+      if (savedPhrases.length) {
+        this.phrases = JSON.parse(savedPhrases);
+      }
+      const remaining = localStorage.getItem("remaining");
+      if (remaining.length) {
+        this.remaining = +remaining;
+      }
+    },
     methods: {
       getNewPhrase() {
         const ids = this.phrases.reduce((acc, el) => acc.concat(el.id), []);
@@ -25,15 +32,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             this.phrases.push(data);
             this.loading = false;
             this.remaining--;
+            localStorage.setItem("phrases", JSON.stringify(this.phrases));
+            localStorage.setItem("remaining", JSON.stringify(this.remaining));
           });
       },
       clearPhrases() {
-        fetch("/reset", {
-          method: "POST"
-        }).then(() => {
-          this.phrases = [];
-          this.loading = false;
-        });
+        this.phrases = [];
+        this.remaining = 10;
+        localStorage.removeItem("phrases");
+        localStorage.removeItem("remaining");
       }
     }
   });
